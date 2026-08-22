@@ -240,13 +240,14 @@
             <!-- Profile Photo Container -->
             <div class="relative w-full h-full rounded-full p-2 bg-gradient-to-tr from-cyan-500 via-indigo-500 to-violet-500 shadow-2xl">
               <div class="w-full h-full rounded-full overflow-hidden bg-white border-4 border-white shadow-inner">
-                <!-- Nikhil's Photo from Google Drive -->
+                <!-- Nikhil's Photo with Avatar Fallback -->
                 <img 
+                  id="profile-img"
                   src="https://lh3.googleusercontent.com/d/1h_W59S-LvqXv3ukyIj0OmS5jdj3zmdW_" 
                   alt="Nikhil Namdev Talekar" 
                   referrerpolicy="no-referrer"
                   class="w-full h-full object-cover object-top transform hover:scale-105 transition-transform duration-500"
-                  onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1h_W59S-LvqXv3ukyIj0OmS5jdj3zmdW_';"
+                  onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Nikhil+Talekar&background=0284c7&color=ffffff&size=512&bold=true';"
                 />
               </div>
             </div>
@@ -331,7 +332,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-200">
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <p class="text-slate-500 text-xs uppercase tracking-wider font-semibold">Primary Stack</p>
-                <p class="text-slate-900 font-bold mt-1">/ HTML / CSS /PHP / JavaScript / MySQL</p>
+                <p class="text-slate-900 font-bold mt-1">HTML • CSS • PHP • JavaScript • MySQL</p>
               </div>
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <p class="text-slate-500 text-xs uppercase tracking-wider font-semibold">Education</p>
@@ -410,19 +411,19 @@
 
         <!-- Filter Category Buttons -->
         <div data-aos="fade-up" data-aos-delay="100" class="flex flex-wrap items-center justify-center gap-3 mb-12">
-          <button onclick="filterSkills('all')" class="filter-btn active px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white shadow-md shadow-indigo-500/20">
+          <button onclick="filterSkills('all', event)" class="filter-btn active px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white shadow-md shadow-indigo-500/20">
             All Skills
           </button>
-          <button onclick="filterSkills('frontend')" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-cyan-700 border border-slate-300 shadow-sm">
+          <button onclick="filterSkills('frontend', event)" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-cyan-700 border border-slate-300 shadow-sm">
             Front-End
           </button>
-          <button onclick="filterSkills('backend')" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-indigo-700 border border-slate-300 shadow-sm">
+          <button onclick="filterSkills('backend', event)" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-indigo-700 border border-slate-300 shadow-sm">
             Back-End
           </button>
-          <button onclick="filterSkills('database')" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-violet-700 border border-slate-300 shadow-sm">
+          <button onclick="filterSkills('database', event)" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-violet-700 border border-slate-300 shadow-sm">
             Database & Git
           </button>
-          <button onclick="filterSkills('tools')" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-pink-700 border border-slate-300 shadow-sm">
+          <button onclick="filterSkills('tools', event)" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-slate-700 hover:text-pink-700 border border-slate-300 shadow-sm">
             Tools & Software
           </button>
         </div>
@@ -743,7 +744,7 @@
               </a>
 
               <!-- Phone -->
-              <a href="tel:8261974976" class="flex items-center gap-4 p-4 rounded-2xl glass-card hover:border-violet-300 transition-colors">
+              <a href="tel:+919834997247" class="flex items-center gap-4 p-4 rounded-2xl glass-card hover:border-violet-300 transition-colors">
                 <div class="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center text-violet-600 border border-violet-200">
                   <i data-lucide="phone" class="w-5 h-5"></i>
                 </div>
@@ -758,7 +759,10 @@
           <!-- Interactive Contact Form -->
           <div data-aos="fade-left" class="glass-card rounded-3xl p-8 shadow-md">
 
-    <form id="contact-form" class="space-y-4">
+            <!-- Dynamic Form Alert Message -->
+            <div id="form-alert" class="hidden mb-4 p-3.5 rounded-xl text-xs font-semibold transition-all"></div>
+
+            <form id="contact-form" class="space-y-4">
 
         <!-- Name -->
         <div>
@@ -903,7 +907,7 @@
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9.5);
         doc.setTextColor(...textColor);
-        doc.text('+91 8261974976   |   talekarnikhil6191@gmail.com   |   Chikhali, Pune, India', 105, y, { align: 'center' });
+        doc.text('+91 9834997247   |   talekarnikhil6191@gmail.com   |   Chikhali, Pune, India', 105, y, { align: 'center' });
 
         y += 4;
         doc.setDrawColor(...primaryColor);
@@ -1089,6 +1093,7 @@
     const typedTextSpan = document.getElementById("typed-text");
 
     function typeEffect() {
+      if (!typedTextSpan) return;
       const currentRole = roles[roleIndex];
       if (isDeleting) {
         typedTextSpan.textContent = currentRole.substring(0, charIndex - 1);
@@ -1111,20 +1116,28 @@
 
       setTimeout(typeEffect, speed);
     }
-    document.addEventListener("DOMContentLoaded", typeEffect);
+
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", typeEffect);
+    } else {
+      typeEffect();
+    }
 
     // Dynamic Skills Filter Logic
-    function filterSkills(category) {
+    function filterSkills(category, evt) {
       const cards = document.querySelectorAll('.skill-card');
       const buttons = document.querySelectorAll('.filter-btn');
 
       buttons.forEach(btn => {
-        btn.classList.remove('bg-gradient-to-r', 'from-cyan-600', 'to-indigo-600', 'text-white', 'shadow-md');
-        btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+        btn.classList.remove('active', 'bg-gradient-to-r', 'from-cyan-600', 'to-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-500/20');
+        btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300', 'shadow-sm');
       });
 
-      event.currentTarget.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-      event.currentTarget.classList.add('bg-gradient-to-r', 'from-cyan-600', 'to-indigo-600', 'text-white', 'shadow-md');
+      const currentBtn = evt && evt.currentTarget ? evt.currentTarget : document.querySelector(`.filter-btn[onclick*="'${category}'"]`);
+      if (currentBtn) {
+        currentBtn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300', 'shadow-sm');
+        currentBtn.classList.add('active', 'bg-gradient-to-r', 'from-cyan-600', 'to-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-500/20');
+      }
 
       cards.forEach(card => {
         if (category === 'all' || card.getAttribute('data-category') === category) {
@@ -1141,93 +1154,120 @@
       });
     }
 
-    // Form Submission Feedback
-// Contact Form
-const contactForm = document.getElementById("contact-form");
+    // Contact Form Handler with Inline Alerts
+    const contactForm = document.getElementById("contact-form");
+    const formAlert = document.getElementById("form-alert");
 
-contactForm.addEventListener("submit", async function(event) {
+    function showFormAlert(message, type) {
+      if (!formAlert) return;
+      formAlert.className = 'mb-4 p-3.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all';
+      if (type === 'success') {
+        formAlert.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+        formAlert.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i><span>${message}</span>`;
+      } else {
+        formAlert.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+        formAlert.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 shrink-0"></i><span>${message}</span>`;
+      }
+      lucide.createIcons();
+    }
 
-    event.preventDefault();
+    if (contactForm) {
+      contactForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const messageInput = document.getElementById("message");
+        const btn = document.getElementById("submit-btn");
 
-    const btn = document.getElementById("submit-btn");
-    const originalHtml = btn.innerHTML;
+        const name = nameInput ? nameInput.value.trim() : "";
+        const email = emailInput ? emailInput.value.trim() : "";
+        const message = messageInput ? messageInput.value.trim() : "";
 
-    btn.disabled = true;
-    btn.innerHTML = "Sending...";
+        if (!name || !email || !message) {
+          showFormAlert("Please fill out all fields.", "error");
+          return;
+        }
 
-    try {
+        const originalHtml = btn ? btn.innerHTML : "Send Message";
 
-        const response = await fetch("http://localhost:5000/api/contact", {
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Sending...`;
+          lucide.createIcons();
+        }
+
+        try {
+          const response = await fetch("http://localhost:5000/api/contact", {
             method: "POST",
-
             headers: {
-                "Content-Type": "application/json"
+              "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
-                name: name,
-                email: email,
-                message: message
+              name: name,
+              email: email,
+              message: message
             })
-        });
+          });
 
-        const data = await response.json();
+          const data = await response.json();
 
-        if (data.success) {
-
-            btn.innerHTML = "✓ Message Sent!";
-            btn.classList.add("bg-emerald-600");
+          if (response.ok && data.success) {
+            showFormAlert("Thank you! Your message has been sent successfully.", "success");
+            if (btn) {
+              btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> Message Sent!`;
+              btn.classList.add("bg-emerald-600");
+              lucide.createIcons();
+            }
 
             contactForm.reset();
 
             setTimeout(() => {
+              if (btn) {
                 btn.innerHTML = originalHtml;
                 btn.classList.remove("bg-emerald-600");
                 btn.disabled = false;
-
                 lucide.createIcons();
-            }, 3000);
+              }
+            }, 3500);
 
-        } else {
+          } else {
+            showFormAlert(data.message || "Failed to send message.", "error");
+            if (btn) {
+              btn.innerHTML = originalHtml;
+              btn.disabled = false;
+              lucide.createIcons();
+            }
+          }
 
-            alert(data.message || "Failed to send message.");
-
+        } catch (error) {
+          console.error("Error:", error);
+          showFormAlert("Server connection offline. Please ensure backend is running on port 5000 or email talekarnikhil6191@gmail.com directly.", "error");
+          if (btn) {
             btn.innerHTML = originalHtml;
             btn.disabled = false;
-
             lucide.createIcons();
+          }
         }
-
-    } catch (error) {
-
-        console.error("Error:", error);
-
-        alert("Unable to connect to the server.");
-
-        btn.innerHTML = originalHtml;
-        btn.disabled = false;
-
-        lucide.createIcons();
+      });
     }
-});
+
     // Light Theme Canvas Particles
     const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas ? canvas.getContext('2d') : null;
     let particlesArray = [];
 
     function resizeCanvas() {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      initParticles();
     }
     window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
 
     class Particle {
       constructor() {
+        if (!canvas) return;
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 0.5;
@@ -1235,12 +1275,14 @@ contactForm.addEventListener("submit", async function(event) {
         this.speedY = (Math.random() - 0.5) * 0.5;
       }
       update() {
+        if (!canvas) return;
         this.x += this.speedX;
         this.y += this.speedY;
         if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
         if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
       }
       draw() {
+        if (!ctx) return;
         ctx.fillStyle = 'rgba(79, 70, 229, 0.25)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -1249,38 +1291,42 @@ contactForm.addEventListener("submit", async function(event) {
     }
 
     function initParticles() {
+      if (!canvas) return;
       particlesArray = [];
       const numberOfParticles = Math.floor((canvas.width * canvas.height) / 18000);
       for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
       }
     }
-    initParticles();
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].update();
-        particlesArray[i].draw();
+    if (canvas && ctx) {
+      resizeCanvas();
 
-        for (let j = i; j < particlesArray.length; j++) {
-          const dx = particlesArray[i].x - particlesArray[j].x;
-          const dy = particlesArray[i].y - particlesArray[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+          particlesArray[i].update();
+          particlesArray[i].draw();
 
-          if (distance < 110) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(79, 70, 229, ${0.12 - distance / 1100})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-            ctx.stroke();
+          for (let j = i; j < particlesArray.length; j++) {
+            const dx = particlesArray[i].x - particlesArray[j].x;
+            const dy = particlesArray[i].y - particlesArray[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 110) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(79, 70, 229, ${0.12 - distance / 1100})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+              ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+              ctx.stroke();
+            }
           }
         }
+        requestAnimationFrame(animateParticles);
       }
-      requestAnimationFrame(animateParticles);
+      animateParticles();
     }
-    animateParticles();
 
   </script>
 </body>
