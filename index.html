@@ -1198,7 +1198,11 @@
         }
 
         try {
-          const response = await fetch("http://localhost:5000/api/contact", {
+          const apiUrl = (window.location.protocol.startsWith('http') && window.location.port === '5000')
+            ? '/api/contact'
+            : 'http://localhost:5000/api/contact';
+
+          const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -1213,7 +1217,7 @@
           const data = await response.json();
 
           if (response.ok && data.success) {
-            showFormAlert("Thank you! Your message has been sent successfully.", "success");
+            showFormAlert("Thank you! Your message has been saved to the database successfully.", "success");
             if (btn) {
               btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> Message Sent!`;
               btn.classList.add("bg-emerald-600");
@@ -1232,7 +1236,7 @@
             }, 3500);
 
           } else {
-            showFormAlert(data.message || "Failed to send message.", "error");
+            showFormAlert(data.message || "Failed to save message to database.", "error");
             if (btn) {
               btn.innerHTML = originalHtml;
               btn.disabled = false;
@@ -1242,7 +1246,7 @@
 
         } catch (error) {
           console.error("Error:", error);
-          showFormAlert("Server connection offline. Please ensure backend is running on port 5000 or email talekarnikhil6191@gmail.com directly.", "error");
+          showFormAlert("Cannot connect to backend server on port 5000. Please start the backend (run start-portfolio.bat or 'npm start' in the backend folder).", "error");
           if (btn) {
             btn.innerHTML = originalHtml;
             btn.disabled = false;
